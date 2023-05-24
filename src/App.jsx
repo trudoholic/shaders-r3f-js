@@ -1,24 +1,38 @@
-import {useRef} from "react"
-import { Canvas } from "@react-three/fiber"
-import { OrbitControls } from "@react-three/drei"
+import {useMemo, useRef} from "react"
+import {Canvas, useFrame} from "@react-three/fiber"
+import {OrbitControls} from "@react-three/drei"
 
-import vertexShader from "./shaders/gradient/vertexShader.js"
-import fragmentShader from "./shaders/gradient/fragmentShader.js"
+import vertexShader from "./shaders/moving/vertexShader.js"
+import fragmentShader from "./shaders/moving/fragmentShader.js"
 
 const Fragment = () => {
-  const mesh = useRef()
+  const mesh = useRef(null)
+
+  const uniforms = useMemo(
+    () => ({
+      u_time: {
+        value: 0.0,
+      },
+    }), []
+  )
+
+  useFrame((state) => {
+    const { clock } = state
+    mesh.current.material.uniforms.u_time.value = clock.getElapsedTime()
+  })
 
   return (
-    <mesh ref={mesh} position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={1.5}>
+    <mesh ref={mesh} position={[0, 0, 0]}  rotation={[-Math.PI / 2, 0, 0]} scale={1.5}>
       <planeGeometry args={[1, 1, 32, 32]} />
       <shaderMaterial
         fragmentShader={fragmentShader}
         vertexShader={vertexShader}
+        uniforms={uniforms}
         wireframe
       />
-
     </mesh>
-  )
+  );
+
 }
 
 function App() {
