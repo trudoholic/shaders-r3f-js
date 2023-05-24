@@ -2,8 +2,8 @@ import {useRef} from "react"
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls } from "@react-three/drei"
 
-import vertexShader from './vertexShader'
-import fragmentShader from './fragmentShader'
+import vertexShader from "./shaders/gradient/vertexShader.js"
+import fragmentShader from "./shaders/gradient/fragmentShader.js"
 
 const Fragment = () => {
   const mesh = useRef()
