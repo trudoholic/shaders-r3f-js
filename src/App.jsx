@@ -1,4 +1,5 @@
 import {useMemo, useRef} from "react"
+import { Color } from "three"
 import {Canvas, useFrame} from "@react-three/fiber"
 import {OrbitControls} from "@react-three/drei"
 
@@ -10,9 +11,9 @@ const Fragment = () => {
 
   const uniforms = useMemo(
     () => ({
-      u_time: {
-        value: 0.0,
-      },
+      u_time: { value: 0.0 },
+      u_colorA: { value: new Color("#FFE486") },
+      u_colorB: { value: new Color("#FEB3D9") },
     }), []
   )
 
@@ -28,7 +29,7 @@ const Fragment = () => {
         fragmentShader={fragmentShader}
         vertexShader={vertexShader}
         uniforms={uniforms}
-        wireframe
+        wireframe={false}
       />
     </mesh>
   );
